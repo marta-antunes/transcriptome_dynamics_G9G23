@@ -43,7 +43,7 @@ run_glmmTMB1binN_on_generation_PT_2models_ratio.R
 run_glmmTMB1binN_on_generation_NL_2models_ratio.R 
 ```
 
-# 3. selecao historia
+# 3. Analysis of each generation separately, including data from both historical populations
 
 ```
 run_glmmTMB1binN_on_SelectionHistory.R
