@@ -1,12 +1,16 @@
 # compare models using normalized counts for all samples
 
+library(here)
 library(lme4)
 library(car)
 library(glmmTMB)
 library(bbmle) #necessary to AIC
 
+# Define paths using here()
+input_file  <- here("data", "Galaxy340-Normalized_counts.tabular")
+output_file <- here("results", "TESTE_G9G23.txt")
 ##verify if there is no the space in the beggining of the header
-normalizedCounts <- read.table("Galaxy340-Normalized_counts.tabular", sep = '\t', header=TRUE, stringsAsFactors = TRUE)
+normalizedCounts <- read.table(input_file, sep = '\t', header=TRUE, stringsAsFactors = TRUE)
 
 
 #keep genes that have data in at least 3 of the samples (columns).
@@ -84,7 +88,7 @@ for(i in 1:ncol(data1)) {       # for-loop over columns
   #dealing with errors
   if (class(AIC) == "try-error") {
     AIC <- data.frame(genes=geneName,glmmTMB1_binN="ERROR_in_AIC",glmmTMB2_binN="ERROR_in_AIC", glmmTMB3_binN="ERROR_in_AIC",glmmTMB4_binN="ERROR_in_AIC",glmmTMB1_poisson="ERROR_in_AIC",glmmTMB2_poisson="ERROR_in_AIC", glmmTMB3_poisson="ERROR_in_AIC",glmmTMB4_poisson="ERROR_in_AIC", bestModel="ERROR_in_AIC")
-    write.table(AIC, "TESTE_G9G23.txt" , append = TRUE, sep = '\t', col.names = FALSE, row.names = FALSE)
+    write.table(AIC, output_file , append = TRUE, sep = '\t', col.names = FALSE, row.names = FALSE)
   } else {
   #Sort Using Character row.names
   try(sorted <- AIC[order(row.names(AIC)), ])
@@ -106,7 +110,7 @@ for(i in 1:ncol(data1)) {       # for-loop over columns
   #transpose
   try(transposed_of_AICsubsetted <- as.data.frame(t(AICsubsetted),stringsAsFactors = FALSE, ))
   #try(print(transposed_of_AICsubsetted))
-  try(write.table(transposed_of_AICsubsetted, "TESTE_G9G23.txt" , append = TRUE, sep = '\t', col.names = FALSE, row.names = TRUE))
+  try(write.table(transposed_of_AICsubsetted, output_file , append = TRUE, sep = '\t', col.names = FALSE, row.names = TRUE))
 }}
 
 #sink()
